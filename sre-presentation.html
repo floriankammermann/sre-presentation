@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Title</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif';font-size: 2em; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code { font-size: 20px; }, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      .remark-slide-content { font-size: 35px; padding-left: 50px; padding-right: 50px; }
+      .remark-slide-content-small { font-size: 25px; }
+      .p-margin-small p { margin-bottom: 0.6em; margin-top: 0.6em; }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# Site Reliability Engineering
+# SRE
+
+---
+
+# Agenda
+
+45-50min
+
+1. The mind models of software operations
+2. SRE Principles
+3. SLI and SLO
+4. The Alert Pyramid
+5. Alert on SLO
+6. Non Large Abstract System Design
+7. The calculus of nines
+8. SRE in your organization
+
+---
+class: p-margin-small
+
+# The Mind Models of Software Operations
+
+Hard Boundary (ITIL)
+
+You build it, you run it aka DevOps
+
+Site Reliability Engineering SRE
+
+ 
+---
+class: p-margin-small
+
+# Model: Hard Boundary (ITIL)
+
+We accept things like incidents and technical debt exists, but we try to get someone else to handle them. The classical Dev Department, Ops Department model.
+
+**Strengths**: Sharp lines lead to clarity
+
+**Weakness**: Broken Feedback Loop, Fingerpointing, diverged Culture, Cost Centric, poor Automation, limited Incident Response Capability, long Lead Time.
+
+---
+class: p-margin-small
+
+# Model: You build it, you run it aka DevOps
+
+If a team builds a thing, they run the thing. Keep all responsibility in-house.
+
+**Strengths**: Production Ownership by Devs and Ops, good Feedback Loop, short Lead Time, end to end Automation.
+
+**Weakness**: Poor aligment between Teams on Ops practicies, Teams reeinvent things, not all Solutions fit this Model, log off skills needed in one Team (Development, Reliability, Security, Operation)
+
+---
+class: p-margin-small
+
+# Model: Site Reliability Engineering SRE
+
+A dedicated Role with expertise in maintaining Reliability (Design for Reliability, Implement Reliability, Change Management, Monitoring, Incident Response)
+
+**Strengths**: Almost all of DevOps, Reliability is a feature, clear contract when to work on reliability, one language for reliability, specific role which owns the Knowledge, can scale.
+
+**Weakness**: If there is no governance on tools and practices, its hard.
+
+---
+class: center, middle
+
+**Site Reliability Engineering is an engineering discipline devoted to helping an organization sustainably achieve the appropriate level of reliability in their systems, services and products**
+
+---
+class: p-margin-small
+
+# Is SRE kind of DevOps? 
+
+SRE provides the Practicies how Reliability can be addressed. 
+
+DevOps focus on Lead Time and Automation, but there is no Guidance, how to Address the Aspect of Reliability.  
+
+Anyway what is the Ops aspect? It means to **reliable** run the product.  
+
+SRE is not a competitor to DevOps, it provides Practicies how to implement the Reliability aspect.
+
+---
+class: p-margin-small
+
+# Why does Reliability matter
+
+If your product is down, your product has no value.
+
+If you product misbehaves, you can loose your whole business.
+
+---
+class: p-margin-small
+
+# Most Important SRE Principles/Practicies
+
+1. SLI and SLO, errorbudget
+1. Alert on SLO
+1. Eliminating Toil
+1. Incident Response
+1. Canarying Releases
+1. Non Large Abstract System Design
+
+---
+class: center, middle
+
+# SLI/SLO
+
+**Service Level Indicator**
+
+A quantifiable measure of service reliability.  
+With focus on how the user experiences reliability.
+
+---
+class: center, middle
+
+# SLI/SLO
+
+**Service Level Objective**
+
+Set a reliability target for an SLI
+
+---
+
+# SLI and the user happiness
+
+.center[![Default-aligned image](images/sli_happy_unhappy.png)]
+
+---
+
+# SLI and the user happiness
+
+.center[![Default-aligned image](images/sli_happy_unhappy_metric.png)]
+
+---
+
+# SLI and the user happiness
+
+.center[![Default-aligned image](images/sli_happy_unhappy_metric_noise_ratio.png)]
+
+---
+class: p-margin-small
+
+# Possible metrics for SLI
+
+* http response code
+* response time
+* response data quality
+
+---
+
+# Definition of SLI
+
+.center[![Default-aligned image](images/good_events_valid_events.png)]
+
+---
+
+# Definition of SLI http response code example
+
+.center[![Default-aligned image](images/good_events_valid_events.png)]
+
+**valid events** = `100` http resp  
+**good events** = `95` http resp with `code != 5.*`
+
+**SLI** = `95`  
+
+---
+
+# Definition of SLO
+
+.center[![Default-aligned image](images/happy_unhappy_slo.png)]
+
+---
+class: center, middle
+
+# Definition of SLO
+
+The SLI http response code must be 99  
+over a rolling window of 30 days
+
+---
+class: p-margin-small
+
+# We got an error budget
+
+In a rolling window 30 days we can only have `100 - SLI (99)` bad response codes.  
+Means if there are 1'000'000 requests we can afford 10'000 bad requests/response.
+
+---
+class: p-margin-small
+
+# Act on the error budget 
+
+The error budget is actionable 
+
+When the error budget declined to a certain point, we can prioritize reliability improvements over new features
+
+**We just added reliability as a feature to our value stream**
+
+The PO can treat new functionality and reliability head to head in the same model
+
+---
+class: p-margin-small
+
+# Alert on SLI
+
+As consequence we should also base our alerting on the SLI metric
+
+But when should we page the on-call engineer?
+
+And when should we just create an issue, that can be worked on in working hours?
+
+---
+
+# Alert on SLO Burndown Rate
+
+.center[![Default-aligned image](images/slo_burndown_rate.png)]
+
+---
+class: p-margin-small
+
+# Alert on SLO Burndown Rate
+
+* If we have a burn rate of 14%  of the overall errorbudget in the last 5min, we  page somebody.
+* If we have a brun rate of 1% over the last 6 hours we create a ticket, notify over another channel
+
+---
+class: p-margin-small
+
+# Alert on SLO Burndown Rate
+
+If we have a burn rate of 14%  of the overall errorbudget in the last 5min, we  page somebody.
+
+If we have a brun rate of 1% over the last 6 hours we create a ticket, notify over another channel
+
+---
+class: p-margin-small
+
+# Alert on SLO Burndown Rate
+
+Not so simple because you have several factors:
+* Detection Time (System down should alert immediately)
+* Reset Time (When the SLI is back to 100, the alert should not fire anymore)
+
+The problem can be solve with a multiwindow alerting and expressed in PromQL for example.
+For an example check https://developers.soundcloud.com/blog/alerting-on-slos
+
+---
+class: p-margin-small
+
+# Incident Response and the Calculus of Nines
+
+What is the impact of nines on our Incident Response Time.
+
+Availability and the downtime per year:  
+99 -----> 87.6h   
+99.9 ---> 8.76h  
+99.99 --> 52.6m  
+99.999 -> 5.26m  
+
+---
+class: p-margin-small
+
+# SLO Dependencies
+
+A service can only be as reliable as the sum of SLO's of his critical dependency. 
+
+A critical dependency brings your service down, if it is down: 
+* network
+* run infrastructure (*aaS)
+* database?
+
+Critical dependencies needs an extra 9
+
+---
+class: p-margin-small
+
+# Example 99.9
+
+* 5 Critcal Dependencies
+* Error Budget is 526m Downtime, Dependencies eat 263m, **263m** is left
+* expect 2 Outages, time MTTR per outage is 132m
+* Detection Time for alert 2m
+* Until oncall is ready to fix 20m
+* **Remaining time for fix 110m**
+
+---
+class: p-margin-small
+
+# Example 99.99
+
+* 5 Critcal Dependencies
+* Error Budget is 53m Downtime, Dependencies eat 26.5m, **26.5m** is left
+* expect 2 Outages, time MTTR per outage is 132m
+* Detection Time for alert 2m
+* Until oncall is ready to fix 20m
+* **Remaining time for fix 4.5m**
+* --> Game Over, we missed our four nines
+
+---
+class: center, middle
+
+# Calculus of Nines conclusion
+
+Relying on humans for fixing production issues can not lead to high reliability
+
+We need other measures
+
+---
+
+# Non Large Abstract System Design
+
+
+
+# Resources
+
+[The Mental Models for Reliable Software Engineering](https://www.youtube.com/watch?v=qD_qBUFkKMQ&feature=youtu.be&t=1050)
+
+[DevOps Versus SRE](https://devops.com/site-reliability-engineering-101-devops-versus-sre/)
+
+---
+class: center, middle
+
+# keep the evolution going
+
+Get better in Reliability, by not compromising the Value Stream
+
+    </textarea>
+    <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
