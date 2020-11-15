@@ -31,16 +31,12 @@ class: center, middle
 
 # Agenda
 
-45-50min
-
 1. The mind models of software operations
-2. SRE Principles
-3. SLI and SLO
-4. The Alert Pyramid
-5. Alert on SLO
-6. Non Large Abstract System Design
-7. The calculus of nines
-8. SRE in your organization
+1. SRE Principles
+1. SLI and SLO
+1. Alert on SLO
+1. The Calculus of Service Availability
+1. Non Large Abstract System Design
 
 ---
 class: p-margin-small
@@ -119,12 +115,13 @@ class: p-margin-small
 
 # Most Important SRE Principles/Practicies
 
-1. SLI and SLO, errorbudget
-1. Alert on SLO
-1. Eliminating Toil
-1. Incident Response
-1. Canarying Releases
-1. Non Large Abstract System Design
+1. **SLI, SLO and Errorbudget**
+1. **Alert on SLO**
+1. ~~Eliminating Toil~~
+1. *Incident Response*
+1. ~~Postmortem Culture~~
+1. *Canarying Releases*
+1. *Non Large Abstract System Design*
 
 ---
 class: center, middle
@@ -273,7 +270,7 @@ For an example check https://developers.soundcloud.com/blog/alerting-on-slos
 ---
 class: p-margin-small
 
-# Incident Response and the Calculus of Nines
+# The Calculus of Service Availability
 
 What is the impact of nines on our Incident Response Time.
 
@@ -332,16 +329,96 @@ Relying on humans for fixing production issues can not lead to high reliability
 We need other measures
 
 ---
+class: p-margin-small
+
+# Have multiple instances of your service
+
+First of all you need multiple instances. The more instances you have, the less you consume from your SLI when one instance fails. 
+
+when 1 of your 10 instances fails, your SLI is down to 90.   
+
+If 1 instance of your 100 instances fail, your SLI is down to 99.
+
+---
+class: p-margin-small
+
+# Distribute your System, no Single Point of Failure
+
+**Multi Instance, Multi Node, Multi Datacenter**
+
+The more the nines, the more distributed your System needs to be
+
+But also the cost of beeing (eventual) consistent increases (CAP)
+
+---
+class: p-margin-small
+
+# Roll out your changes gradually
+
+The known method for rolling out change gradually is canarying.
+
+This can be done with everything.   
+Config change, code change, BIOS update ... just name it.
+
+Again, If 1 instance of your 100 instances fail on your change, your SLI is down to 99.
+
+Automate the Rollback, based on metrics.
+
+---
+class: p-margin-small
 
 # Non Large Abstract System Design
 
+NLASD is the ability to assess, design, and evaluate (large) systems.  
 
+Practically, NALSD combines elements of capacity planning, component isolation, and graceful system degradation that are crucial to highly available production systems.
+
+---
+class: p-margin-small
+
+# Non Large Abstract System Design
+
+Non Abstract, becasue the White Board Design has to be translated into Response Times, Network Bandwith, IOPS, RAM Access Time, Failure Modes etc.
+
+And these numbers will be measured and the Design will be verified.
+
+---
+class: center, middle
+
+Much more to say, but not enough time
+
+---
+class: p-margin-small
+
+# Conclusion
+
+SRE and Reliability doesn't come for free
+
+If the built in Reliability of your Application and run Environment is sufficent, go with it.
+
+If you need to care about Reliability, SRE gives you a good framwork to treat Reliabilty in a predictible model.
+
+---
+class: p-margin-small
 
 # Resources
 
-[The Mental Models for Reliable Software Engineering](https://www.youtube.com/watch?v=qD_qBUFkKMQ&feature=youtu.be&t=1050)
+* [The SRE Workbook](https://landing.google.com/sre/workbook/toc/)
+* [The Mental Models for Reliable Software Engineering](https://www.youtube.com/watch?v=qD_qBUFkKMQ&feature=youtu.be&t=1050)
+* [DevOps Versus SRE](https://devops.com/site-reliability-engineering-101-devops-versus-sre/)
+* [The Calculus of Service Availability](https://queue.acm.org/detail.cfm?id=3096459)
+* [Best Practices for Setting SLOs and SLIs For Modern, Complex Systems](https://blog.newrelic.com/engineering/best-practices-for-setting-slos-and-slis-for-modern-complex-systems/) 
+* [SLOs Are the API for Your Engineering Team](https://www.infoq.com/articles/slos-engineering-team-API/)
+* [Stop Talking & Listen; Practices for Creating Effective Customer SLOs](https://www.infoq.com/presentations/slo-pitfalls-2019/)
 
-[DevOps Versus SRE](https://devops.com/site-reliability-engineering-101-devops-versus-sre/)
+---
+class: p-margin-small
+
+# Resources
+
+* [Canary Analysis Service](https://queue.acm.org/detail.cfm?id=3194655)
+* [Why SRE Documents Matter](https://queue.acm.org/detail.cfm?id=3283589)
+* [Alerting on SLOs like Pros](https://developers.soundcloud.com/blog/alerting-on-slos)
 
 ---
 class: center, middle
