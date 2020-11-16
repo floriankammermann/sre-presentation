@@ -134,15 +134,6 @@ A quantifiable measure of service reliability.
 With focus on how the user experiences reliability.
 
 ---
-class: center, middle
-
-# SLI/SLO
-
-**Service Level Objective**
-
-Set a reliability target for an SLI
-
----
 
 # SLI and the user happiness
 
@@ -185,6 +176,15 @@ class: p-margin-small
 **good events** = `95` http resp with `code != 5.*`
 
 **SLI** = `95`  
+
+---
+class: center, middle
+
+# SLI/SLO
+
+**Service Level Objective**
+
+Set a reliability target for an SLI
 
 ---
 
@@ -282,7 +282,8 @@ A service can only be as reliable as the sum of SLO's of his critical dependency
 A critical dependency brings your service down, if it is down: 
 * network
 * run infrastructure (*aaS)
-* database?
+* *database?*
+* ~~another service~~
 
 Critical dependencies needs an extra 9
 
@@ -363,7 +364,13 @@ class: p-margin-small
 
 NLASD is the ability to assess, design, and evaluate (large) systems.  
 
-Practically, NALSD combines elements of capacity planning, component isolation, and graceful system degradation that are crucial to highly available production systems.
+Practically, NALSD combines elements of:
+* capacity planning
+* component isolation
+* instance, data distribution
+* high availability
+* clustering
+* graceful system degradation 
 
 ---
 class: p-margin-small
@@ -373,6 +380,30 @@ class: p-margin-small
 Non Abstract, becasue the White Board Design has to be translated into Response Times, Network Bandwith, IOPS, RAM Access Time, Failure Modes etc.
 
 And these numbers will be measured and the Design will be verified.
+
+---
+class: center, middle
+
+# Should you do SRE
+
+As always it depends
+
+If you are a 2 person startup, most probably not.   
+If you are a large compnany with high reliability requirements for some of you services, SRE can help you.
+
+---
+class: p-margin-small
+
+# How can you start
+
+You don't have to start with a full blown SRE department.  
+
+Start small and iterate: 
+* Try to define your first SLI/SLO's
+* Get in contact with Business/Users to align on SLO
+* Start to monitor the error budget
+* Alert on SLO
+* Assess your Services with the NALSD
 
 ---
 class: center, middle
