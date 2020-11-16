@@ -70,7 +70,7 @@ If a team builds a thing, they run the thing. Keep all responsibility in-house.
 
 **Strengths**: Production Ownership by Devs and Ops, good Feedback Loop, short Lead Time, end to end Automation.
 
-**Weakness**: Poor aligment between Teams on Ops practicies, Teams reeinvent things, not all Solutions fit this Model, log off skills needed in one Team (Development, Reliability, Security, Operation)
+**Weakness**: Poor aligment between Teams on Ops practicies, Teams reeinvent things, not all Solutions fit this Model, lots off skills needed in one Team (Development, Reliability, Security, Operation)
 
 ---
 class: p-margin-small
@@ -79,9 +79,9 @@ class: p-margin-small
 
 A dedicated Role with expertise in maintaining Reliability (Design for Reliability, Implement Reliability, Change Management, Monitoring, Incident Response)
 
-**Strengths**: Almost all of DevOps, Reliability is a feature, clear contract when to work on reliability, one language for reliability, specific role which owns the Knowledge, can scale.
+**Strengths**: Aligns with DevOps, Reliability is a feature, clear contract when to work on Reliability, one language for Reliability, specific role which owns the Knowledge, can scale.
 
-**Weakness**: If there is no governance on tools and practices, its hard.
+**Weakness**: If there is no governance on tools and practices, its hard. SRE practices are not for free.
 
 ---
 class: center, middle
@@ -97,7 +97,7 @@ SRE provides the Practicies how Reliability can be addressed.
 
 DevOps focus on Lead Time and Automation, but there is no Guidance, how to Address the Aspect of Reliability.  
 
-Anyway what is the Ops aspect? It means to **reliable** run the product.  
+Anyway what is the Ops aspect? It means to **reliable** run the product and introduce change.  
 
 SRE is not a competitor to DevOps, it provides Practicies how to implement the Reliability aspect.
 
@@ -245,7 +245,7 @@ class: p-margin-small
 
 If we have a burn rate of 14%  of the overall errorbudget in the last 5min, we  page somebody.
 
-If we have a brun rate of 1% over the last 6 hours we create a ticket, notify over another channel
+If we have a burn rate of 1% over the last 6 hours we create a ticket, notify over another channel
 
 ---
 class: p-margin-small
@@ -305,12 +305,11 @@ class: p-margin-small
 # Example 99.99
 
 * 5 Critcal Dependencies
-* Error Budget is 53m Downtime, Dependencies eat 26.5m, **26.5m** is left
-* expect 2 Outages, time MTTR per outage is 132m
+* Error Budget is 52.6m Downtime, Dependencies eat 26.3m, **26.3m** is left
+* expect 2 Outages, time MTTR per outage is 13.2m
 * Detection Time for alert 2m
 * Until oncall is ready to fix 20m
-* **Remaining time for fix 4.5m**
-* --> Game Over, we missed our four nines
+* --> **Game Over, we missed our four nines**
 
 ---
 class: center, middle
@@ -388,8 +387,11 @@ class: center, middle
 
 As always it depends
 
-If you are a 2 person startup, most probably not.   
-If you are a large compnany with high reliability requirements for some of you services, SRE can help you.
+Is reliability a problem for you.  
+
+If you are a 2 person startup, most probably not SRE is the solution.
+
+If you are a large company with high reliability requirements for some of you services, SRE can help you.
 
 ---
 class: p-margin-small
@@ -442,7 +444,7 @@ class: p-margin-small
 * [Canary Analysis Service](https://queue.acm.org/detail.cfm?id=3194655)
 * [Why SRE Documents Matter](https://queue.acm.org/detail.cfm?id=3283589)
 * [Alerting on SLOs like Pros](https://developers.soundcloud.com/blog/alerting-on-slos)
-* [SRE presentation](https://github.com/floriankammermann/sre-presentation)
+* [https://github.com/floriankammermann/sre-presentation](https://github.com/floriankammermann/sre-presentation)
 
 ---
 class: center, middle
