@@ -243,14 +243,6 @@ class: p-margin-small
 
 # Alert on SLO Burndown Rate
 
-* If we have a burn rate of 14%  of the overall errorbudget in the last 5min, we  page somebody.
-* If we have a brun rate of 1% over the last 6 hours we create a ticket, notify over another channel
-
----
-class: p-margin-small
-
-# Alert on SLO Burndown Rate
-
 If we have a burn rate of 14%  of the overall errorbudget in the last 5min, we  page somebody.
 
 If we have a brun rate of 1% over the last 6 hours we create a ticket, notify over another channel
@@ -265,7 +257,7 @@ Not so simple because you have several factors:
 * Reset Time (When the SLI is back to 100, the alert should not fire anymore)
 
 The problem can be solve with a multiwindow alerting and expressed in PromQL for example.
-For an example check https://developers.soundcloud.com/blog/alerting-on-slos
+For an example check [Alerting on SLOs like Pros](https://developers.soundcloud.com/blog/alerting-on-slos)
 
 ---
 class: p-margin-small
